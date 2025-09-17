@@ -3,6 +3,7 @@ package com.novahabitat.controller;
 import com.novahabitat.dto.CustomerDTO;
 import com.novahabitat.model.Customer;
 import com.novahabitat.service.ICustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -33,31 +34,43 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> findById(@PathVariable("id") Integer id) throws Exception{
-        Customer obj =  service.findById(id);
+    public ResponseEntity<CustomerDTO> findById(@PathVariable("id") Integer id) throws Exception{
+        //Customer obj =  service.findById(id);
+        CustomerDTO obj = modelMapper.map(service.findById(id), CustomerDTO.class);
         return ResponseEntity.ok(obj);
     }
 
     @PostMapping
-    public ResponseEntity<Customer>  save(@RequestBody Customer customer) throws Exception{
-        Customer obj =  service.save(customer);
+    public ResponseEntity<Customer>  save(@Valid @RequestBody CustomerDTO dto) throws Exception{
+        //Customer obj =  service.save(customer);
         //return ResponseEntity.ok(obj);
         // localhost:8080/customers/{id}
+        Customer obj = service.save(modelMapper.map(dto, Customer.class));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(obj.getIdCustomer()).toUri();
         return ResponseEntity.created(location).build();
         //return new ResponseEntity<>(obj, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> update(@PathVariable("id") Integer id, @RequestBody Customer customer) throws Exception{
-        Customer obj = service.update(customer, id);
-        return ResponseEntity.ok(obj);
+    public ResponseEntity<CustomerDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody CustomerDTO dto) throws Exception{
+        //Customer obj = service.update(customer, id);
+        Customer obj = service.update(modelMapper.map(dto, Customer.class), id);
+        CustomerDTO dto1 = modelMapper.map(obj, CustomerDTO.class );
+        return ResponseEntity.ok(dto1);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception{
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    private CustomerDTO convertToDto(Customer obj){
+        return modelMapper.map(obj, CustomerDTO.class);
+    }
+
+    private Customer convertToEntity(CustomerDTO dto){
+        return modelMapper.map(dto, Customer.class);
     }
     
     /*public CustomerController(ICustomerService service) {

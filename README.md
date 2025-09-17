@@ -79,3 +79,12 @@ En el proyecto se utiliza modelMapper, incluir en el `pom.xml`
         <version>3.2.4</version>
     </dependency>
 ```
+
+Jakarta Validation
+```
+    <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+    <version>3.5.5</version>
+    </dependency>
+```
