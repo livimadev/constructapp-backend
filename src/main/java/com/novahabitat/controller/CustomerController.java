@@ -1,8 +1,10 @@
 package com.novahabitat.controller;
 
+import com.novahabitat.dto.CustomerDTO;
 import com.novahabitat.model.Customer;
 import com.novahabitat.service.ICustomerService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/customers")
@@ -20,8 +23,10 @@ public class CustomerController {
     private final ICustomerService service;
 
     @GetMapping
-    public ResponseEntity<List<Customer>> findAll() throws Exception{
-        List<Customer> list = service.findAll();
+    public ResponseEntity<List<CustomerDTO>> findAll() throws Exception{
+        //List<CustomerDTO> list = service.findAll().stream().map(e -> new CustomerDTO(e.getIdCustomer(),e.getFirstName(), e.getLastName(), e.getPhone(), e.getEmail(), e.getDni(), e.getAddress())).toList();
+        ModelMapper modelMapper = new ModelMapper();
+        List<CustomerDTO> list = service.findAll().stream().map(e -> modelMapper.map(e, CustomerDTO.class)).toList();
         return ResponseEntity.ok(list);
     }
 

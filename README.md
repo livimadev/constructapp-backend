@@ -69,3 +69,13 @@ Y la configuración de `application.properties`
     spring.datasource.username=your_user
     spring.datasource.password=your_password
 ```
+Para mapeo de Modelo y DTO, pueden usar [ModelMapper](https://modelmapper.org/), [MapStruct](https://mapstruct.org/), o alguna biblioteca que considere conveniente.
+En el proyecto se utiliza modelMapper, incluir en el `pom.xml`
+```
+    <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+    <dependency>
+        <groupId>org.modelmapper</groupId>
+        <artifactId>modelmapper</artifactId>
+        <version>3.2.4</version>
+    </dependency>
+```
