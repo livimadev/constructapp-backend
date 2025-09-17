@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,11 +22,12 @@ import java.util.stream.Collectors;
 public class CustomerController {
     //@Autowired
     private final ICustomerService service;
+    private final ModelMapper modelMapper;
 
     @GetMapping
     public ResponseEntity<List<CustomerDTO>> findAll() throws Exception{
         //List<CustomerDTO> list = service.findAll().stream().map(e -> new CustomerDTO(e.getIdCustomer(),e.getFirstName(), e.getLastName(), e.getPhone(), e.getEmail(), e.getDni(), e.getAddress())).toList();
-        ModelMapper modelMapper = new ModelMapper();
+        //ModelMapper modelMapper = new ModelMapper();
         List<CustomerDTO> list = service.findAll().stream().map(e -> modelMapper.map(e, CustomerDTO.class)).toList();
         return ResponseEntity.ok(list);
     }
