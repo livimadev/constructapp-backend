@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/suppliers")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class SupplierController {
     private final ISupplierService service;
 

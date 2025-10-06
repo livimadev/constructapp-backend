@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/projects")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class ProjectController {
     private final IProjectService service;
 

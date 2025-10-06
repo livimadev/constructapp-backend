@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/customers")
 //@AllArgsConstructor
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class CustomerController {
     //@Autowired
     private final ICustomerService service;
