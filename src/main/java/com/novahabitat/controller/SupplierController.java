@@ -1,11 +1,15 @@
 package com.novahabitat.controller;
 
+import com.novahabitat.dto.SupplierDTO;
 import com.novahabitat.model.Supplier;
-import com.novahabitat.service.ICustomerService;
 import com.novahabitat.service.ISupplierService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -14,29 +18,45 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class SupplierController {
     private final ISupplierService service;
+    private final ModelMapper modelMapper;
 
     @GetMapping
-    public List<Supplier> findAll() throws Exception{
-        return service.findAll();
+    public ResponseEntity<List<SupplierDTO>> findAll() throws Exception{
+        List<SupplierDTO> list = service.findAll().stream().map(this::convertToDto).toList();
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
-    public Supplier findById(@PathVariable("id") Integer id) throws Exception{
-        return service.findById(id);
+    public ResponseEntity<SupplierDTO> findById(@PathVariable("id") Integer id) throws Exception{
+        SupplierDTO obj = convertToDto(service.findById(id));
+        return ResponseEntity.ok(obj);
     }
 
     @PostMapping
-    public Supplier save(@RequestBody Supplier supplier) throws Exception{
-        return service.save(supplier);
+    public ResponseEntity<Supplier>  save(@Valid @RequestBody SupplierDTO dto) throws Exception{
+        Supplier obj = service.save(convertToEntity(dto));
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(obj.getIdSupplier()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public Supplier update(@PathVariable("id") Integer id, @RequestBody Supplier supplier) throws Exception{
-        return service.update(supplier, id);
+    public ResponseEntity<SupplierDTO> update(@Valid @PathVariable("id") Integer id, @RequestBody SupplierDTO dto) throws Exception{
+        Supplier obj = service.update(convertToEntity(dto), id);
+        SupplierDTO dto1 = convertToDto(obj);
+        return ResponseEntity.ok(dto1);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Integer id) throws Exception{
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) throws Exception{
         service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    private SupplierDTO convertToDto(Supplier obj){
+        return modelMapper.map(obj, SupplierDTO.class);
+    }
+
+    private Supplier convertToEntity(SupplierDTO dto){
+        return modelMapper.map(dto, Supplier.class);
     }
 }
