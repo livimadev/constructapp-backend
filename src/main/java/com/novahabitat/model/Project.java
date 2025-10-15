@@ -37,4 +37,8 @@ public class Project {
     @ManyToOne // FK (Foreign Key)
     @JoinColumn(name="id_customer", nullable = false, foreignKey = @ForeignKey(name = "FK_PROJECT_CUSTOMER") )
     private Customer customer;
+
+    @ManyToOne // FK (Foreign Key)
+    @JoinColumn(name="id_user", nullable = false, foreignKey = @ForeignKey(name = "FK_PROJECT_USER") )
+    private User user;
 }
