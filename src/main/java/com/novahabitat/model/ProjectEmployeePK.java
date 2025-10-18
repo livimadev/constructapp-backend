@@ -8,12 +8,12 @@ import lombok.EqualsAndHashCode;
 
 @Embeddable
 @EqualsAndHashCode
-public class MenuRolePK {
+public class ProjectEmployeePK {
     @ManyToOne
-    @JoinColumn(name = "id_menu", foreignKey = @ForeignKey(name="FK_MENU_ROLE_M"))
-    private Menu menu;
+    @JoinColumn(name = "id_project", foreignKey = @ForeignKey(name="FK_PROJECT_EMPLOYEE_P"))
+    private Project project;
 
     @ManyToOne
-    @JoinColumn(name = "id_role", foreignKey = @ForeignKey(name="FK_MENU_ROLE_R"))
-    private Role role;
+    @JoinColumn(name = "id_employee", foreignKey = @ForeignKey(name="FK_PROJECT_EMPLOYEE_E"))
+    private Employee employee;
 }

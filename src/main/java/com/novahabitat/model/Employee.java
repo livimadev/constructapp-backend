@@ -25,7 +25,8 @@ public class Employee {
     private LocalDate hireDate; // Fecha de ingreso
     private Double salary;
 
-    @ManyToOne // FK (Foreign Key)
+    /*@ManyToOne // FK (Foreign Key)
     @JoinColumn(name="id_project", nullable = false, foreignKey = @ForeignKey(name = "FK_EMPLOYEE_PROJECT") )
     private Project project;
+     */
 }

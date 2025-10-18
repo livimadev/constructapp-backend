@@ -3,29 +3,26 @@ package com.novahabitat.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@IdClass(MenuRolePK.class)
-public class MenuRole {
+@IdClass(ProjectEmployeePK.class)
+public class ProjectEmployee {
     @Id
-    private Menu menu;
+    private Project project;
 
     @Id
-    private Role role;
+    private Employee employee;
 
-    /*static class MenuRolePK implements Serializable{
+    /*static class ProjectEmployeePK implements Serializable{
         @ManyToOne
-        private Menu menu;
+        private Project project;
         @ManyToOne
-        private Role role;
+        private Employee employee;
     }*/
 }
